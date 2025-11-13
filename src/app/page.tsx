@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Sparkles, 
   Zap, 
@@ -12,583 +11,241 @@ import {
   Globe, 
   Check, 
   ArrowRight,
-  FileText,
-  Image as ImageIcon,
-  MessageSquare,
   Code,
   BarChart,
-  Video,
-  ChevronDown
+  MessageSquare,
+  Star,
+  Users,
+  TrendingUp,
+  X,
+  Play,
+  ExternalLink,
+  ShoppingCart,
+  Building2
 } from "lucide-react";
 
 export default function Home() {
-  const [language, setLanguage] = useState<"pt" | "en">("pt");
+  const [showFreeTrial, setShowFreeTrial] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [selectedPurchaseProject, setSelectedPurchaseProject] = useState<number | null>(null);
+  const [purchaseComplete, setPurchaseComplete] = useState(false);
+  const [purchasedProjects, setPurchasedProjects] = useState<number[]>([]);
+  const [showPlanPurchaseModal, setShowPlanPurchaseModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
+  const [planPurchaseComplete, setPlanPurchaseComplete] = useState(false);
 
-  const content = {
-    pt: {
-      nav: {
-        features: "Funcionalidades",
-        examples: "Exemplos",
-        pricing: "Preços",
-        cta: "Começar Grátis"
-      },
-      hero: {
-        badge: "Powered by IA Avançada",
-        title: "Transforme seu Trabalho com",
-        titleHighlight: "Inteligência Artificial",
-        subtitle: "Automatize tarefas, crie conteúdo e aumente sua produtividade com nossa plataforma de IA de última geração. Resultados profissionais em segundos.",
-        cta: "Começar Agora",
-        ctaSecondary: "Ver Demonstração"
-      },
-      features: {
-        title: "Funcionalidades Poderosas",
-        subtitle: "Tudo o que precisa para trabalhar mais rápido e melhor",
-        items: [
-          {
-            icon: Sparkles,
-            title: "IA Generativa",
-            description: "Crie textos, imagens e código com qualidade profissional"
-          },
-          {
-            icon: Zap,
-            title: "Processamento Rápido",
-            description: "Resultados instantâneos com tecnologia de ponta"
-          },
-          {
-            icon: Shield,
-            title: "Segurança Total",
-            description: "Seus dados protegidos com criptografia avançada"
-          },
-          {
-            icon: Globe,
-            title: "Suporte Multilíngue",
-            description: "Trabalhe em mais de 50 idiomas diferentes"
-          }
-        ]
-      },
-      examples: {
-        title: "O Que Pode Fazer",
-        subtitle: "Exemplos reais de trabalhos criados com nossa plataforma",
-        items: [
-          {
-            icon: FileText,
-            title: "Criação de Conteúdo",
-            description: "Artigos de blog, posts para redes sociais, emails marketing",
-            tags: ["SEO", "Copywriting", "Marketing"],
-            image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&h=400&fit=crop"
-          },
-          {
-            icon: ImageIcon,
-            title: "Geração de Imagens",
-            description: "Logos, banners, ilustrações e designs personalizados",
-            tags: ["Design", "Branding", "Arte"],
-            image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop"
-          },
-          {
-            icon: MessageSquare,
-            title: "Chatbots Inteligentes",
-            description: "Assistentes virtuais para atendimento ao cliente 24/7",
-            tags: ["Suporte", "Automação", "CX"],
-            image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=600&h=400&fit=crop"
-          },
-          {
-            icon: Code,
-            title: "Desenvolvimento de Código",
-            description: "Geração de código, debugging e otimização",
-            tags: ["Web", "Apps", "APIs"],
-            image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop"
-          },
-          {
-            icon: BarChart,
-            title: "Análise de Dados",
-            description: "Insights automáticos e relatórios detalhados",
-            tags: ["Analytics", "BI", "Reports"],
-            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop"
-          },
-          {
-            icon: Video,
-            title: "Edição de Vídeo",
-            description: "Legendas automáticas, resumos e transcrições",
-            tags: ["Vídeo", "Áudio", "Legendas"],
-            image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&h=400&fit=crop"
-          }
-        ]
-      },
-      pricing: {
-        title: "Planos Transparentes",
-        subtitle: "Escolha o plano ideal para suas necessidades",
-        monthly: "Mensal",
-        annual: "Anual",
-        save: "Poupe 20%",
-        plans: [
-          {
-            name: "Starter",
-            description: "Perfeito para começar",
-            price: "29",
-            period: "/mês",
-            features: [
-              "10.000 tokens/mês",
-              "Acesso a modelos básicos",
-              "Suporte por email",
-              "Histórico de 30 dias",
-              "API básica"
-            ],
-            cta: "Começar Grátis",
-            popular: false
-          },
-          {
-            name: "Professional",
-            description: "Para profissionais exigentes",
-            price: "79",
-            period: "/mês",
-            features: [
-              "100.000 tokens/mês",
-              "Todos os modelos de IA",
-              "Suporte prioritário",
-              "Histórico ilimitado",
-              "API avançada",
-              "Integrações premium",
-              "Treinamento personalizado"
-            ],
-            cta: "Começar Agora",
-            popular: true
-          },
-          {
-            name: "Enterprise",
-            description: "Para equipas e empresas",
-            price: "299",
-            period: "/mês",
-            features: [
-              "Tokens ilimitados",
-              "Modelos personalizados",
-              "Suporte dedicado 24/7",
-              "SLA garantido",
-              "API enterprise",
-              "Onboarding completo",
-              "Segurança avançada",
-              "Gestão de equipa"
-            ],
-            cta: "Contactar Vendas",
-            popular: false
-          }
-        ]
-      },
-      cta: {
-        title: "Pronto para Começar?",
-        subtitle: "Junte-se a milhares de profissionais que já transformaram seu trabalho com IA",
-        button: "Começar Gratuitamente",
-        note: "Sem cartão de crédito necessário"
-      },
-      footer: {
-        rights: "Todos os direitos reservados.",
-        product: "Produto",
-        company: "Empresa",
-        resources: "Recursos"
-      }
+  const features = [
+    { icon: Sparkles, title: "IA Generativa", description: "Crie textos, imagens e código com qualidade profissional" },
+    { icon: Zap, title: "Processamento Rápido", description: "Resultados instantâneos com tecnologia de ponta" },
+    { icon: Shield, title: "Segurança Total", description: "Seus dados protegidos com criptografia avançada" },
+    { icon: Globe, title: "Acesso Global", description: "Disponível em qualquer lugar, a qualquer momento" }
+  ];
+
+  const portfolio = [
+    {
+      title: "E-commerce Fashion",
+      description: "Plataforma completa de vendas online",
+      metrics: { revenue: "+250%", conversion: "4.2%", users: "50k+" },
+      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop",
+      videoUrl: "https://www.youtube.com/embed/QqsaZS-N0Ok",
+      price: 259
     },
-    en: {
-      nav: {
-        features: "Features",
-        examples: "Examples",
-        pricing: "Pricing",
-        cta: "Start Free"
-      },
-      hero: {
-        badge: "Powered by Advanced AI",
-        title: "Transform Your Work with",
-        titleHighlight: "Artificial Intelligence",
-        subtitle: "Automate tasks, create content, and boost your productivity with our cutting-edge AI platform. Professional results in seconds.",
-        cta: "Get Started",
-        ctaSecondary: "Watch Demo"
-      },
-      features: {
-        title: "Powerful Features",
-        subtitle: "Everything you need to work faster and better",
-        items: [
-          {
-            icon: Sparkles,
-            title: "Generative AI",
-            description: "Create professional-quality text, images, and code"
-          },
-          {
-            icon: Zap,
-            title: "Fast Processing",
-            description: "Instant results with cutting-edge technology"
-          },
-          {
-            icon: Shield,
-            title: "Total Security",
-            description: "Your data protected with advanced encryption"
-          },
-          {
-            icon: Globe,
-            title: "Multilingual Support",
-            description: "Work in over 50 different languages"
-          }
-        ]
-      },
-      examples: {
-        title: "What You Can Do",
-        subtitle: "Real examples of work created with our platform",
-        items: [
-          {
-            icon: FileText,
-            title: "Content Creation",
-            description: "Blog articles, social media posts, marketing emails",
-            tags: ["SEO", "Copywriting", "Marketing"],
-            image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&h=400&fit=crop"
-          },
-          {
-            icon: ImageIcon,
-            title: "Image Generation",
-            description: "Logos, banners, illustrations, and custom designs",
-            tags: ["Design", "Branding", "Art"],
-            image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop"
-          },
-          {
-            icon: MessageSquare,
-            title: "Smart Chatbots",
-            description: "Virtual assistants for 24/7 customer service",
-            tags: ["Support", "Automation", "CX"],
-            image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=600&h=400&fit=crop"
-          },
-          {
-            icon: Code,
-            title: "Code Development",
-            description: "Code generation, debugging, and optimization",
-            tags: ["Web", "Apps", "APIs"],
-            image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop"
-          },
-          {
-            icon: BarChart,
-            title: "Data Analysis",
-            description: "Automatic insights and detailed reports",
-            tags: ["Analytics", "BI", "Reports"],
-            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop"
-          },
-          {
-            icon: Video,
-            title: "Video Editing",
-            description: "Automatic subtitles, summaries, and transcriptions",
-            tags: ["Video", "Audio", "Captions"],
-            image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&h=400&fit=crop"
-          }
-        ]
-      },
-      pricing: {
-        title: "Transparent Pricing",
-        subtitle: "Choose the perfect plan for your needs",
-        monthly: "Monthly",
-        annual: "Annual",
-        save: "Save 20%",
-        plans: [
-          {
-            name: "Starter",
-            description: "Perfect to get started",
-            price: "29",
-            period: "/month",
-            features: [
-              "10,000 tokens/month",
-              "Access to basic models",
-              "Email support",
-              "30-day history",
-              "Basic API"
-            ],
-            cta: "Start Free",
-            popular: false
-          },
-          {
-            name: "Professional",
-            description: "For demanding professionals",
-            price: "79",
-            period: "/month",
-            features: [
-              "100,000 tokens/month",
-              "All AI models",
-              "Priority support",
-              "Unlimited history",
-              "Advanced API",
-              "Premium integrations",
-              "Custom training"
-            ],
-            cta: "Get Started",
-            popular: true
-          },
-          {
-            name: "Enterprise",
-            description: "For teams and companies",
-            price: "299",
-            period: "/month",
-            features: [
-              "Unlimited tokens",
-              "Custom models",
-              "24/7 dedicated support",
-              "Guaranteed SLA",
-              "Enterprise API",
-              "Complete onboarding",
-              "Advanced security",
-              "Team management"
-            ],
-            cta: "Contact Sales",
-            popular: false
-          }
-        ]
-      },
-      cta: {
-        title: "Ready to Get Started?",
-        subtitle: "Join thousands of professionals who have already transformed their work with AI",
-        button: "Start Free",
-        note: "No credit card required"
-      },
-      footer: {
-        rights: "All rights reserved.",
-        product: "Product",
-        company: "Company",
-        resources: "Resources"
-      }
+    {
+      title: "App Fitness",
+      description: "Aplicativo de treinos personalizados",
+      metrics: { revenue: "+180%", conversion: "6.8%", users: "30k+" },
+      image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop",
+      videoUrl: "https://www.youtube.com/embed/UItWltVZZmE",
+      price: 100
+    },
+    {
+      title: "SaaS Analytics",
+      description: "Dashboard de análise de dados",
+      metrics: { revenue: "+320%", conversion: "8.1%", users: "100k+" },
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+      videoUrl: "https://www.youtube.com/embed/pN34FNbOKXc",
+      price: 259
+    }
+  ];
+
+  const plans = [
+    {
+      name: "Starter",
+      price: 29,
+      features: ["10 projetos IA/mês", "Suporte por email", "1 usuário", "Recursos básicos"],
+      icon: Users
+    },
+    {
+      name: "Pro",
+      price: 79,
+      popular: true,
+      features: ["100 projetos IA/mês", "Suporte prioritário", "5 usuários", "Recursos avançados", "API access"],
+      icon: Zap
+    },
+    {
+      name: "Enterprise",
+      price: 499,
+      features: ["Projetos ilimitados", "Suporte 24/7", "Usuários ilimitados", "Todos os recursos", "Customização completa", "Gerente dedicado", "SLA garantido"],
+      icon: Building2,
+      enterprise: true
+    }
+  ];
+
+  const handlePurchase = (projectIdx: number) => {
+    setSelectedPurchaseProject(projectIdx);
+    setShowPurchaseModal(true);
+    setPurchaseComplete(false);
+  };
+
+  const completePurchase = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (selectedPurchaseProject !== null) {
+      setPurchasedProjects([...purchasedProjects, selectedPurchaseProject]);
+      setPurchaseComplete(true);
     }
   };
 
-  const t = content[language];
+  const handlePlanPurchase = (planIdx: number) => {
+    setSelectedPlan(planIdx);
+    setShowPlanPurchaseModal(true);
+    setPlanPurchaseComplete(false);
+  };
+
+  const completePlanPurchase = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (selectedPlan !== null) {
+      setPlanPurchaseComplete(true);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-orange-50 dark:from-slate-950 dark:to-slate-900">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-xl dark:bg-slate-950/90 shadow-sm">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-orange-500 shadow-lg">
-                <Sparkles className="h-6 w-6 text-white" />
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">
-                AI SaaS
-              </span>
-            </div>
-
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-sm font-medium text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors">
-                {t.nav.features}
-              </a>
-              <a href="#examples" className="text-sm font-medium text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors">
-                {t.nav.examples}
-              </a>
-              <a href="#pricing" className="text-sm font-medium text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors">
-                {t.nav.pricing}
-              </a>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setLanguage(language === "pt" ? "en" : "pt")}
-                className="text-sm font-medium"
-              >
-                {language === "pt" ? "🇬🇧 EN" : "🇵🇹 PT"}
-              </Button>
-              <Button className="bg-gradient-to-r from-blue-600 to-orange-500 hover:from-blue-700 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-300">
-                {t.nav.cta}
-              </Button>
-            </div>
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      {/* Header */}
+      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-8 h-8 text-purple-600" />
+            <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              AI Platform
+            </span>
           </div>
+          <nav className="hidden md:flex items-center gap-6">
+            <a href="#features" className="text-gray-600 hover:text-purple-600 transition-colors">Funcionalidades</a>
+            <a href="#portfolio" className="text-gray-600 hover:text-purple-600 transition-colors">Portfólio</a>
+            <a href="#pricing" className="text-gray-600 hover:text-purple-600 transition-colors">Preços</a>
+            <Button onClick={() => setShowFreeTrial(true)} className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+              Começar Grátis
+            </Button>
+          </nav>
         </div>
-      </nav>
+      </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 sm:py-32">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-white to-orange-100 dark:from-blue-950/30 dark:via-slate-950 dark:to-orange-950/30" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.15),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(249,115,22,0.15),transparent_50%)]" />
-        <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl text-center">
-            <Badge className="mb-6 bg-gradient-to-r from-blue-600 to-orange-500 text-white border-0 shadow-lg px-4 py-1.5 text-sm">
-              <Sparkles className="mr-2 h-4 w-4" />
-              {t.hero.badge}
-            </Badge>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
-              {t.hero.title}
-              <br />
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-orange-500 bg-clip-text text-transparent animate-gradient">
-                {t.hero.titleHighlight}
-              </span>
-            </h1>
-            <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-              {t.hero.subtitle}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-orange-500 hover:from-blue-700 hover:to-orange-600 text-lg px-8 shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105">
-                {t.hero.cta}
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-950/30 transition-all duration-300">
-                {t.hero.ctaSecondary}
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
-          <ChevronDown className="h-8 w-8 text-blue-600 animate-bounce" />
+      <section className="container mx-auto px-4 py-20 text-center">
+        <Badge className="mb-4 bg-purple-100 text-purple-700 hover:bg-purple-200">
+          <Sparkles className="w-3 h-3 mr-1" />
+          Powered by IA Avançada
+        </Badge>
+        <h1 className="text-5xl md:text-7xl font-bold mb-6">
+          Transforme seu Trabalho com{" "}
+          <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            Inteligência Artificial
+          </span>
+        </h1>
+        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          Automatize tarefas, crie conteúdo e aumente sua produtividade com nossa plataforma de IA de última geração.
+        </p>
+        <div className="flex gap-4 justify-center">
+          <Button onClick={() => setShowFreeTrial(true)} size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+            Começar Agora
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
+          <Button size="lg" variant="outline" onClick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}>
+            Ver Portfólio
+          </Button>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-20 sm:py-32">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">
-              {t.features.title}
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              {t.features.subtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {t.features.items.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <Card key={index} className="border-2 hover:border-blue-500 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 group hover:-translate-y-1">
-                  <CardHeader>
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-orange-500 mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                      <Icon className="h-7 w-7 text-white" />
-                    </div>
-                    <CardTitle className="text-xl">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-slate-600 dark:text-slate-400">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+      {/* Features */}
+      <section id="features" className="container mx-auto px-4 py-20">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4">Funcionalidades Poderosas</h2>
+          <p className="text-gray-600">Tudo o que precisa para trabalhar mais rápido e melhor</p>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((feature, idx) => (
+            <Card key={idx} className="border-2 hover:border-purple-300 transition-all hover:shadow-xl">
+              <CardHeader>
+                <feature.icon className="w-12 h-12 text-purple-600 mb-4" />
+                <CardTitle>{feature.title}</CardTitle>
+                <CardDescription>{feature.description}</CardDescription>
+              </CardHeader>
+            </Card>
+          ))}
         </div>
       </section>
 
-      {/* Examples Section */}
-      <section id="examples" className="py-20 sm:py-32 bg-gradient-to-b from-white to-blue-50 dark:from-slate-900 dark:to-slate-900/50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">
-              {t.examples.title}
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              {t.examples.subtitle}
-            </p>
+      {/* Portfolio */}
+      <section id="portfolio" className="bg-gradient-to-b from-purple-50 to-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Projetos de Sucesso</h2>
+            <p className="text-gray-600">Veja como transformamos negócios com IA - Assista aos demos e adquira soluções completas</p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {t.examples.items.map((example, index) => {
-              const Icon = example.icon;
-              return (
-                <Card key={index} className="group hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300 border-2 hover:border-blue-500 overflow-hidden hover:-translate-y-2">
-                  <div className="relative h-48 overflow-hidden bg-gradient-to-br from-blue-100 to-orange-100 dark:from-blue-950 dark:to-orange-950">
-                    <img 
-                      src={example.image} 
-                      alt={example.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-4 left-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-orange-500 shadow-lg">
-                      <Icon className="h-6 w-6 text-white" />
+          <div className="grid md:grid-cols-3 gap-8">
+            {portfolio.map((project, idx) => (
+              <Card key={idx} className="overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                <div className="relative h-48 overflow-hidden group cursor-pointer" onClick={() => setSelectedProject(idx)}>
+                  <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="bg-white/90 rounded-full p-4">
+                      <Play className="w-8 h-8 text-purple-600" />
                     </div>
                   </div>
-                  <CardHeader>
-                    <CardTitle className="text-xl">{example.title}</CardTitle>
-                    <CardDescription className="text-base">
-                      {example.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                      {example.tags.map((tag, tagIndex) => (
-                        <Badge key={tagIndex} variant="secondary" className="text-xs bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 sm:py-32">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">
-              {t.pricing.title}
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8">
-              {t.pricing.subtitle}
-            </p>
-            
-            <Tabs defaultValue="monthly" className="w-fit mx-auto">
-              <TabsList className="grid w-full grid-cols-2 bg-blue-100 dark:bg-blue-950">
-                <TabsTrigger value="monthly" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-orange-500 data-[state=active]:text-white">{t.pricing.monthly}</TabsTrigger>
-                <TabsTrigger value="annual" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-orange-500 data-[state=active]:text-white">
-                  {t.pricing.annual}
-                  <Badge className="ml-2 bg-green-500 text-white text-xs border-0">
-                    {t.pricing.save}
+                  <Badge className="absolute top-4 right-4 bg-white text-purple-700">
+                    <Star className="w-3 h-3 mr-1" />
+                    Destaque
                   </Badge>
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {t.pricing.plans.map((plan, index) => (
-              <Card 
-                key={index} 
-                className={`relative transition-all duration-300 hover:-translate-y-2 ${
-                  plan.popular 
-                    ? 'border-4 border-blue-500 shadow-2xl shadow-blue-500/30 scale-105' 
-                    : 'border-2 hover:border-blue-400 hover:shadow-xl'
-                }`}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-gradient-to-r from-blue-600 to-orange-500 text-white border-0 px-4 py-1 shadow-lg">
-                      Popular
-                    </Badge>
-                  </div>
-                )}
-                <CardHeader className="text-center pb-8">
-                  <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
-                  <CardDescription className="text-base mb-6">
-                    {plan.description}
-                  </CardDescription>
-                  <div className="flex items-baseline justify-center gap-1">
-                    <span className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">€{plan.price}</span>
-                    <span className="text-slate-600 dark:text-slate-400">{plan.period}</span>
-                  </div>
+                </div>
+                <CardHeader>
+                  <CardTitle>{project.title}</CardTitle>
+                  <CardDescription>{project.description}</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  <ul className="space-y-3">
-                    {plan.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start gap-3">
-                        <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-slate-600 dark:text-slate-400">
-                          {feature}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Button 
-                    className={`w-full transition-all duration-300 ${
-                      plan.popular
-                        ? 'bg-gradient-to-r from-blue-600 to-orange-500 hover:from-blue-700 hover:to-orange-600 shadow-lg hover:shadow-xl hover:scale-105'
-                        : 'hover:scale-105'
-                    }`}
-                    variant={plan.popular ? 'default' : 'outline'}
-                    size="lg"
-                  >
-                    {plan.cta}
-                  </Button>
+                <CardContent>
+                  <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-green-600">{project.metrics.revenue}</div>
+                      <div className="text-xs text-gray-500">Receita</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-600">{project.metrics.conversion}</div>
+                      <div className="text-xs text-gray-500">Conversão</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-purple-600">{project.metrics.users}</div>
+                      <div className="text-xs text-gray-500">Usuários</div>
+                    </div>
+                  </div>
+                  
+                  <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700">Solução Completa</span>
+                      <span className="text-2xl font-bold text-green-600">€{project.price}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" className="flex-1" onClick={() => setSelectedProject(idx)}>
+                      <Play className="w-4 h-4 mr-1" />
+                      Ver Demo
+                    </Button>
+                    <Button size="sm" className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700" onClick={() => handlePurchase(idx)}>
+                      <ShoppingCart className="w-4 h-4 mr-1" />
+                      Comprar
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -596,83 +253,517 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 sm:py-32 bg-gradient-to-r from-blue-600 via-purple-600 to-orange-500 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
-        <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
-            {t.cta.title}
-          </h2>
-          <p className="text-lg sm:text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
-            {t.cta.subtitle}
-          </p>
-          <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 shadow-2xl hover:scale-105 transition-all duration-300">
-            {t.cta.button}
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-          <p className="text-sm text-blue-100 mt-4">
-            {t.cta.note}
-          </p>
+      {/* Pricing */}
+      <section id="pricing" className="container mx-auto px-4 py-20">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4">Planos Flexíveis</h2>
+          <p className="text-gray-600">Escolha o plano ideal para seu negócio - Soluções para todos os tamanhos</p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {plans.map((plan, idx) => (
+            <Card key={idx} className={`relative ${plan.popular ? 'border-purple-500 border-2 shadow-2xl scale-105' : ''} ${plan.enterprise ? 'border-amber-500 border-2 shadow-2xl' : ''}`}>
+              {plan.popular && (
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-600 to-pink-600">
+                  Mais Popular
+                </Badge>
+              )}
+              {plan.enterprise && (
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-orange-600">
+                  <Building2 className="w-3 h-3 mr-1" />
+                  Para Empresas
+                </Badge>
+              )}
+              <CardHeader>
+                <div className="flex items-center gap-2 mb-2">
+                  <plan.icon className={`w-6 h-6 ${plan.enterprise ? 'text-amber-600' : 'text-purple-600'}`} />
+                  <CardTitle>{plan.name}</CardTitle>
+                </div>
+                <div className="text-4xl font-bold mt-4">
+                  €{plan.price}
+                  <span className="text-lg text-gray-500">/mês</span>
+                </div>
+                {plan.enterprise && (
+                  <p className="text-sm text-amber-600 font-medium mt-2">Suporte premium e recursos exclusivos</p>
+                )}
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 mb-6">
+                  {plan.features.map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                      <Check className={`w-5 h-5 ${plan.enterprise ? 'text-amber-600' : 'text-green-600'}`} />
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button 
+                  onClick={() => handlePlanPurchase(idx)}
+                  className={`w-full ${plan.popular ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' : ''} ${plan.enterprise ? 'bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700' : ''}`}
+                >
+                  {plan.enterprise ? 'Falar com Vendas' : 'Começar Agora'}
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950 py-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-orange-500 shadow-lg">
-                  <Sparkles className="h-6 w-6 text-white" />
-                </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">
-                  AI SaaS
-                </span>
-              </div>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                {language === "pt" 
-                  ? "Transformando trabalho com IA"
-                  : "Transforming work with AI"}
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4 text-blue-600">{t.footer.product}</h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li><a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.nav.features}</a></li>
-                <li><a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.nav.pricing}</a></li>
-                <li><a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">API</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4 text-blue-600">{t.footer.company}</h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li><a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                  {language === "pt" ? "Sobre" : "About"}
-                </a></li>
-                <li><a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                  {language === "pt" ? "Contacto" : "Contact"}
-                </a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4 text-blue-600">{t.footer.resources}</h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li><a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                  {language === "pt" ? "Documentação" : "Documentation"}
-                </a></li>
-                <li><a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Blog</a></li>
-              </ul>
-            </div>
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="container mx-auto px-4 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Sparkles className="w-6 h-6 text-purple-400" />
+            <span className="text-xl font-bold">AI Platform</span>
           </div>
-
-          <div className="border-t pt-8 text-center text-sm text-slate-600 dark:text-slate-400">
-            <p>© 2024 AI SaaS. {t.footer.rights}</p>
-          </div>
+          <p className="text-gray-400">© 2024 AI Platform. Todos os direitos reservados.</p>
         </div>
       </footer>
+
+      {/* Free Trial Modal */}
+      {showFreeTrial && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <CardHeader className="relative">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="absolute right-4 top-4"
+                onClick={() => setShowFreeTrial(false)}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+              <CardTitle className="text-2xl">Comece Grátis Agora!</CardTitle>
+              <CardDescription>
+                Experimente todas as funcionalidades premium por 14 dias, sem cartão de crédito
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-3 mb-6">
+                {[
+                  "Acesso completo a todos os recursos",
+                  "Suporte prioritário 24/7",
+                  "Sem compromisso, cancele quando quiser",
+                  "Configuração em menos de 2 minutos"
+                ].map((benefit, idx) => (
+                  <div key={idx} className="flex items-start gap-2 text-sm">
+                    <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+              <form className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Nome completo</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="João Silva"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Email profissional</label>
+                  <input
+                    type="email"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="joao@empresa.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Empresa (opcional)</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    placeholder="Minha Empresa Ltda"
+                  />
+                </div>
+                <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                  Iniciar Teste Grátis
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+                <p className="text-xs text-gray-500 text-center">
+                  Ao clicar, você concorda com nossos Termos de Serviço
+                </p>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Project Demo Modal with Video */}
+      {selectedProject !== null && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <CardHeader className="relative">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="absolute right-4 top-4"
+                onClick={() => setSelectedProject(null)}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+              <CardTitle className="text-2xl">{portfolio[selectedProject].title}</CardTitle>
+              <CardDescription>Demonstração completa do projeto</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="aspect-video bg-gray-900 rounded-lg overflow-hidden mb-6">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={portfolio[selectedProject].videoUrl}
+                  title={portfolio[selectedProject].title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
+              </div>
+              
+              <p className="text-gray-600 mb-6 text-lg">{portfolio[selectedProject].description}</p>
+              
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
+                  <div className="text-3xl font-bold text-green-600">{portfolio[selectedProject].metrics.revenue}</div>
+                  <div className="text-sm text-gray-600 mt-1">Aumento de Receita</div>
+                </div>
+                <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="text-3xl font-bold text-blue-600">{portfolio[selectedProject].metrics.conversion}</div>
+                  <div className="text-sm text-gray-600 mt-1">Taxa de Conversão</div>
+                </div>
+                <div className="text-center p-4 bg-purple-50 rounded-lg border border-purple-200">
+                  <div className="text-3xl font-bold text-purple-600">{portfolio[selectedProject].metrics.users}</div>
+                  <div className="text-sm text-gray-600 mt-1">Usuários Ativos</div>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-lg border-2 border-green-200 mb-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900">Adquira esta Solução</h3>
+                    <p className="text-sm text-gray-600">Código-fonte completo + documentação + suporte</p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-3xl font-bold text-green-600">€{portfolio[selectedProject].price}</div>
+                    <div className="text-sm text-gray-500">pagamento único</div>
+                  </div>
+                </div>
+                <Button 
+                  className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+                  onClick={() => {
+                    setSelectedProject(null);
+                    handlePurchase(selectedProject);
+                  }}
+                >
+                  <ShoppingCart className="w-5 h-5 mr-2" />
+                  Comprar Agora
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Purchase Modal */}
+      {showPurchaseModal && selectedPurchaseProject !== null && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="max-w-lg w-full">
+            <CardHeader className="relative">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="absolute right-4 top-4"
+                onClick={() => {
+                  setShowPurchaseModal(false);
+                  setSelectedPurchaseProject(null);
+                  setPurchaseComplete(false);
+                }}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+              <CardTitle className="text-2xl">
+                {purchaseComplete ? "Compra Confirmada!" : "Finalizar Compra"}
+              </CardTitle>
+              <CardDescription>
+                {portfolio[selectedPurchaseProject].title}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {!purchaseComplete ? (
+                <>
+                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg mb-6 border border-purple-200">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-gray-700 font-medium">Solução Completa</span>
+                      <span className="text-2xl font-bold text-purple-600">€{portfolio[selectedPurchaseProject].price}</span>
+                    </div>
+                    <ul className="text-sm text-gray-600 space-y-1">
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-600" />
+                        Código-fonte completo
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-600" />
+                        Documentação técnica
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-600" />
+                        30 dias de suporte
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-600" />
+                        Atualizações gratuitas por 1 ano
+                      </li>
+                    </ul>
+                  </div>
+
+                  <form className="space-y-4" onSubmit={completePurchase}>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Nome completo</label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="João Silva"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Email</label>
+                      <input
+                        type="email"
+                        required
+                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="joao@empresa.com"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Empresa</label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="Minha Empresa Ltda"
+                      />
+                    </div>
+                    <Button type="submit" className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
+                      <ShoppingCart className="w-5 h-5 mr-2" />
+                      Confirmar Compra - €{portfolio[selectedPurchaseProject].price}
+                    </Button>
+                    <p className="text-xs text-gray-500 text-center">
+                      Pagamento seguro. Você receberá o acesso imediatamente após a confirmação.
+                    </p>
+                  </form>
+                </>
+              ) : (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Pagamento Confirmado!</h3>
+                  <p className="text-gray-600 mb-6">
+                    Obrigado pela sua compra! Você agora tem acesso completo a:
+                  </p>
+                  
+                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-lg border border-purple-200 mb-6 text-left">
+                    <h4 className="font-bold text-lg mb-3">{portfolio[selectedPurchaseProject].title}</h4>
+                    <ul className="space-y-2 text-sm text-gray-700">
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-600" />
+                        Código-fonte completo (download disponível)
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-600" />
+                        Documentação técnica detalhada
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-600" />
+                        30 dias de suporte técnico prioritário
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-600" />
+                        Atualizações gratuitas por 1 ano
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-4 h-4 text-green-600" />
+                        Acesso ao portal de clientes
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <p className="text-sm text-blue-800">
+                      <strong>📧 Verifique seu email!</strong><br />
+                      Enviamos as instruções de acesso e download para o email cadastrado.
+                    </p>
+                  </div>
+
+                  <Button 
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                    onClick={() => {
+                      setShowPurchaseModal(false);
+                      setSelectedPurchaseProject(null);
+                      setPurchaseComplete(false);
+                    }}
+                  >
+                    Fechar
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Plan Purchase Modal */}
+      {showPlanPurchaseModal && selectedPlan !== null && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="max-w-lg w-full">
+            <CardHeader className="relative">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="absolute right-4 top-4"
+                onClick={() => {
+                  setShowPlanPurchaseModal(false);
+                  setSelectedPlan(null);
+                  setPlanPurchaseComplete(false);
+                }}
+              >
+                <X className="w-4 h-4" />
+              </Button>
+              <CardTitle className="text-2xl">
+                {planPurchaseComplete ? "Assinatura Confirmada!" : "Assinar Plano"}
+              </CardTitle>
+              <CardDescription>
+                Plano {plans[selectedPlan].name}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {!planPurchaseComplete ? (
+                <>
+                  <div className={`p-4 rounded-lg mb-6 border ${plans[selectedPlan].enterprise ? 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200' : 'bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200'}`}>
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-gray-700 font-medium">Plano {plans[selectedPlan].name}</span>
+                      <span className="text-2xl font-bold text-purple-600">€{plans[selectedPlan].price}/mês</span>
+                    </div>
+                    <ul className="text-sm text-gray-600 space-y-1">
+                      {plans[selectedPlan].features.map((feature, i) => (
+                        <li key={i} className="flex items-center gap-2">
+                          <Check className={`w-4 h-4 ${plans[selectedPlan].enterprise ? 'text-amber-600' : 'text-green-600'}`} />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <form className="space-y-4" onSubmit={completePlanPurchase}>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Nome completo</label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="João Silva"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Email</label>
+                      <input
+                        type="email"
+                        required
+                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="joao@empresa.com"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Empresa</label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="Minha Empresa Ltda"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Número do cartão</label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        placeholder="1234 5678 9012 3456"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Validade</label>
+                        <input
+                          type="text"
+                          required
+                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          placeholder="MM/AA"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2">CVV</label>
+                        <input
+                          type="text"
+                          required
+                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          placeholder="123"
+                        />
+                      </div>
+                    </div>
+                    <Button type="submit" className={`w-full ${plans[selectedPlan].enterprise ? 'bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700' : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700'}`}>
+                      <ShoppingCart className="w-5 h-5 mr-2" />
+                      Confirmar Assinatura - €{plans[selectedPlan].price}/mês
+                    </Button>
+                    <p className="text-xs text-gray-500 text-center">
+                      Pagamento seguro. Você pode cancelar a qualquer momento.
+                    </p>
+                  </form>
+                </>
+              ) : (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Assinatura Confirmada!</h3>
+                  <p className="text-gray-600 mb-6">
+                    Bem-vindo ao plano {plans[selectedPlan].name}! Sua assinatura está ativa.
+                  </p>
+                  
+                  <div className={`p-6 rounded-lg border mb-6 text-left ${plans[selectedPlan].enterprise ? 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200' : 'bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200'}`}>
+                    <h4 className="font-bold text-lg mb-3">Plano {plans[selectedPlan].name}</h4>
+                    <ul className="space-y-2 text-sm text-gray-700">
+                      {plans[selectedPlan].features.map((feature, i) => (
+                        <li key={i} className="flex items-center gap-2">
+                          <Check className={`w-4 h-4 ${plans[selectedPlan].enterprise ? 'text-amber-600' : 'text-green-600'}`} />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <p className="text-sm text-blue-800">
+                      <strong>📧 Verifique seu email!</strong><br />
+                      Enviamos as instruções de acesso à sua conta.
+                    </p>
+                  </div>
+
+                  <Button 
+                    className={`w-full ${plans[selectedPlan].enterprise ? 'bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700' : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700'}`}
+                    onClick={() => {
+                      setShowPlanPurchaseModal(false);
+                      setSelectedPlan(null);
+                      setPlanPurchaseComplete(false);
+                    }}
+                  >
+                    Fechar
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
